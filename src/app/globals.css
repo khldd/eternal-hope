@@ -1,0 +1,194 @@
+@import 'tailwindcss';
+
+:root {
+  /* Eternal Hope Color Palette */
+  --moss: #4A7C59;
+  --fern: #90A955;
+  --olive: #6B8E4E;
+  --forest: #3D5A3D;
+  --sage: #B8D4A8;
+  --mist: #E8F0E3;
+  --deep: #0a120a;
+  --shadow: #141e14;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--forest);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--moss);
+}
+
+/* Hide scrollbar utility */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Selection color */
+::selection {
+  background: var(--moss);
+  color: var(--mist);
+}
+
+/* Focus styles */
+:focus-visible {
+  outline: 2px solid var(--fern);
+  outline-offset: 2px;
+}
+
+/* Smooth transitions for all interactive elements */
+button, a, input, textarea, select {
+  transition: all 0.2s ease;
+}
+
+/* Body styles */
+body {
+  background: linear-gradient(135deg, var(--deep) 0%, #0d1a0d 100%);
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+/* Prevent pull-to-refresh on mobile */
+body {
+  overscroll-behavior-y: contain;
+}
+
+/* Organic blob animation */
+@keyframes blob {
+  0%, 100% {
+    border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+  }
+  25% {
+    border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%;
+  }
+  50% {
+    border-radius: 50% 60% 30% 60% / 30% 60% 70% 40%;
+  }
+  75% {
+    border-radius: 60% 40% 60% 40% / 70% 30% 50% 60%;
+  }
+}
+
+.organic-blob {
+  animation: blob 8s ease-in-out infinite;
+}
+
+/* Glow effect */
+.glow {
+  box-shadow: 
+    0 0 20px rgba(144, 169, 85, 0.15),
+    0 0 40px rgba(74, 124, 89, 0.1),
+    0 0 60px rgba(61, 90, 61, 0.05);
+}
+
+/* Glass effect */
+.glass {
+  background: rgba(26, 40, 24, 0.7);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(107, 142, 78, 0.1);
+}
+
+/* Grain texture overlay */
+.grain::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0.03;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+}
+
+/* Handwritten feel for notes */
+.handwritten {
+  font-family: 'Georgia', serif;
+  font-style: italic;
+  letter-spacing: 0.01em;
+  line-height: 1.7;
+}
+
+/* Mapbox overrides for organic feel */
+.mapboxgl-popup-content {
+  background: rgba(26, 40, 24, 0.95) !important;
+  backdrop-filter: blur(12px) !important;
+  border: 1px solid rgba(107, 142, 78, 0.2) !important;
+  border-radius: 16px !important;
+  padding: 16px !important;
+  color: var(--mist) !important;
+  box-shadow: 
+    0 4px 6px -1px rgba(0, 0, 0, 0.3),
+    0 2px 4px -1px rgba(0, 0, 0, 0.2) !important;
+}
+
+.mapboxgl-popup-tip {
+  border-top-color: rgba(26, 40, 24, 0.95) !important;
+}
+
+.mapboxgl-popup-close-button {
+  color: var(--fern) !important;
+  font-size: 20px !important;
+  padding: 4px 8px !important;
+}
+
+.mapboxgl-popup-close-button:hover {
+  background: rgba(107, 142, 78, 0.2) !important;
+  border-radius: 4px !important;
+}
+
+/* Custom Animation Utilities (mimicking tailwindcss-animate) */
+@keyframes enter {
+  from {
+    opacity: 0;
+    transform: var(--tw-enter-transform, none);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.animate-in {
+  animation: enter 0.3s ease-out forwards;
+  --tw-enter-transform: scale(0.95);
+}
+
+.fade-in {
+  opacity: 0;
+}
+
+.zoom-in-95 {
+  --tw-enter-transform: scale(0.95);
+}
+
+.slide-in-from-top-2 {
+  --tw-enter-transform: translateY(-0.5rem);
+}
+
+.slide-in-from-bottom-4 {
+  --tw-enter-transform: translateY(1rem);
+}
+
+.duration-100 { animation-duration: 100ms; }
+.duration-200 { animation-duration: 200ms; }
+.duration-300 { animation-duration: 300ms; }
+.duration-500 { animation-duration: 500ms; }
+
+.delay-100 { animation-delay: 100ms; }
+.delay-200 { animation-delay: 200ms; }
+.delay-300 { animation-delay: 300ms; }
