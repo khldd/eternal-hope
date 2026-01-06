@@ -1,7 +1,22 @@
 @import 'tailwindcss';
 
+@theme {
+  --font-display: var(--font-inter); /* Default display to inter for now unless we have a specific one */
+  --font-sans: var(--font-inter);
+  --font-serif: var(--font-serif);
+  
+  --color-moss: #4A7C59;
+  --color-fern: #90A955;
+  --color-olive: #6B8E4E;
+  --color-forest: #3D5A3D;
+  --color-sage: #B8D4A8;
+  --color-mist: #E8F0E3;
+  --color-deep: #0a120a;
+  --color-shadow: #141e14;
+}
+
 :root {
-  /* Eternal Hope Color Palette */
+  /* Eternal Hope Color Palette - legacy variables if needed */
   --moss: #4A7C59;
   --fern: #90A955;
   --olive: #6B8E4E;
@@ -10,6 +25,22 @@
   --mist: #E8F0E3;
   --deep: #0a120a;
   --shadow: #141e14;
+}
+
+/* Base Styles */
+body {
+  background: linear-gradient(135deg, var(--deep) 0%, #0d1a0d 100%);
+  color: var(--mist);
+  min-height: 100vh;
+  min-height: 100dvh;
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+  overscroll-behavior-y: contain; /* Prevent pull-to-refresh */
+}
+
+/* Typography Polish */
+h1, h2, h3, h4, h5, h6 {
+  letter-spacing: -0.02em;
 }
 
 /* Custom scrollbar */
@@ -55,19 +86,7 @@
 
 /* Smooth transitions for all interactive elements */
 button, a, input, textarea, select {
-  transition: all 0.2s ease;
-}
-
-/* Body styles */
-body {
-  background: linear-gradient(135deg, var(--deep) 0%, #0d1a0d 100%);
-  min-height: 100vh;
-  min-height: 100dvh;
-}
-
-/* Prevent pull-to-refresh on mobile */
-body {
-  overscroll-behavior-y: contain;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* Organic blob animation */
@@ -117,38 +136,10 @@ body {
 
 /* Handwritten feel for notes */
 .handwritten {
-  font-family: 'Georgia', serif;
+  font-family: var(--font-serif); /* Use Playfair for "handwritten" or elegant feel */
   font-style: italic;
   letter-spacing: 0.01em;
   line-height: 1.7;
-}
-
-/* Mapbox overrides for organic feel */
-.mapboxgl-popup-content {
-  background: rgba(26, 40, 24, 0.95) !important;
-  backdrop-filter: blur(12px) !important;
-  border: 1px solid rgba(107, 142, 78, 0.2) !important;
-  border-radius: 16px !important;
-  padding: 16px !important;
-  color: var(--mist) !important;
-  box-shadow: 
-    0 4px 6px -1px rgba(0, 0, 0, 0.3),
-    0 2px 4px -1px rgba(0, 0, 0, 0.2) !important;
-}
-
-.mapboxgl-popup-tip {
-  border-top-color: rgba(26, 40, 24, 0.95) !important;
-}
-
-.mapboxgl-popup-close-button {
-  color: var(--fern) !important;
-  font-size: 20px !important;
-  padding: 4px 8px !important;
-}
-
-.mapboxgl-popup-close-button:hover {
-  background: rgba(107, 142, 78, 0.2) !important;
-  border-radius: 4px !important;
 }
 
 /* Custom Animation Utilities (mimicking tailwindcss-animate) */

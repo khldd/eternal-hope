@@ -37,6 +37,10 @@ interface AppState {
   setIsPanelOpen: (open: boolean) => void
   isAddingPlace: boolean
   setIsAddingPlace: (adding: boolean) => void
+
+  // Pending place from search
+  pendingSearchPlace: google.maps.places.Place | null
+  setPendingSearchPlace: (place: google.maps.places.Place | null) => void
 }
 
 export const useAppStore = create<AppState>()(
@@ -85,6 +89,9 @@ export const useAppStore = create<AppState>()(
       setIsPanelOpen: (open) => set({ isPanelOpen: open }),
       isAddingPlace: false,
       setIsAddingPlace: (adding) => set({ isAddingPlace: adding }),
+      
+      pendingSearchPlace: null,
+      setPendingSearchPlace: (place) => set({ pendingSearchPlace: place }),
     }),
     {
       name: 'eternal-hope-storage',

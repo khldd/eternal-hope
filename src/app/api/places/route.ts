@@ -11,6 +11,7 @@ export async function GET() {
       .select(`
         *,
         notes (*),
+        photos (*),
         place_tags (
           tag:tags (*)
         )
@@ -24,6 +25,8 @@ export async function GET() {
     const transformedPlaces = places?.map((place: any) => ({
       ...place,
       tags: place.place_tags?.map((pt: { tag: unknown }) => pt.tag) || [],
+      // Ensure specific photos relation is attached if needed, or just let it pass through
+      // The types/database.ts says `photos?: Photo[]` in PlaceWithRelations so it matches automatically
     }))
 
     return NextResponse.json(transformedPlaces || [])
