@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import { useAppStore } from '@/lib/store'
 import { useMapsLibrary } from '@vis.gl/react-google-maps'
-import { MapPin, Loader2, Sparkles, Search, X } from 'lucide-react'
+import { MapPin, Loader2, Sparkles, Search } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { toast } from 'sonner'
 import { cn } from '@/lib/utils'
@@ -91,7 +91,7 @@ export default function AddPlaceModal() {
         longitude: place.location?.lng() || 0,
         status: 'planned',
         rating: place.rating || null,
-        price_level: place.priceLevel ? parseInt(place.priceLevel as any) : null,
+        price_level: place.priceLevel ? parseInt(place.priceLevel as unknown as string) : null,
         types: place.types || [],
         phone: place.internationalPhoneNumber || null,
         website: null,
@@ -125,9 +125,10 @@ export default function AddPlaceModal() {
         setSelectedPlaceId(savedPlace.id)
         handleClose()
       }, 800)
-    } catch (e: any) {
-      console.error("Place Details Error:", e)
-      setError(e.message || 'Something went wrong')
+    } catch (e: unknown) {
+      const error = e as Error
+      console.error("Place Details Error:", error)
+      setError(error.message || 'Something went wrong')
       setIsLoading(false)
       setStep('input')
       toast.error('Could not add place')
@@ -142,7 +143,6 @@ export default function AddPlaceModal() {
     setError(null)
 
     try {
-      // @ts-ignore - Types for Place.searchByText might be missing in older Definitions
       const { places } = await placesLibrary.Place.searchByText({
         textQuery: inputValue,
         fields: ['id', 'displayName', 'formattedAddress', 'location'],
@@ -196,11 +196,11 @@ export default function AddPlaceModal() {
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.9, opacity: 0 }}
-            className="relative w-full max-w-md bg-[#0d1a0d]/90 backdrop-blur-2xl rounded-3xl border border-[#ffffff]/10 shadow-2xl overflow-hidden"
+            className="relative w-full max-w-md bg-deep/90 backdrop-blur-2xl rounded-3xl border border-white/10 shadow-2xl overflow-hidden"
           >
             {/* Organic Gradient Backgrounds */}
-            <div className="absolute top-0 right-0 w-64 h-64 bg-[#6B8E4E]/20 rounded-full blur-[80px]" />
-            <div className="absolute bottom-0 left-0 w-64 h-64 bg-[#90A955]/20 rounded-full blur-[80px]" />
+            <div className="absolute top-0 right-0 w-64 h-64 bg-olive/20 rounded-full blur-[80px]" />
+            <div className="absolute bottom-0 left-0 w-64 h-64 bg-fern/20 rounded-full blur-[80px]" />
 
             <div className="relative p-8">
               {/* Header */}
@@ -210,35 +210,53 @@ export default function AddPlaceModal() {
                   className={cn(
                     "w-14 h-14 rounded-2xl flex items-center justify-center mb-4 transition-all duration-500",
                     step === 'done'
-                      ? 'bg-[#4A7C59] shadow-[0_0_30px_rgba(74,124,89,0.4)]'
-                      : 'bg-gradient-to-br from-[#1a2818] to-[#0a120a] border border-[#ffffff]/5 shadow-inner'
+                      ? 'bg-moss shadow-[0_0_30px_rgba(74,124,89,0.4)]'
+                      : 'bg-linear-to-br from-forest to-deep border border-white/5 shadow-inner'
                   )}
                 >
                   <AnimatePresence mode="wait">
                     {step === 'processing' ? (
-                      <motion.div key="processing" {...stepVariants} exit={{ opacity: 0 }}>
-                        <Loader2 className="w-6 h-6 text-[#6B8E4E] animate-spin" />
+                      <motion.div
+                        key="processing"
+                        variants={stepVariants}
+                        initial="hidden"
+                        animate="visible"
+                        exit="exit"
+                      >
+                        <Loader2 className="w-6 h-6 text-olive animate-spin" />
                       </motion.div>
                     ) : step === 'analyzing' ? (
-                      <motion.div key="analyzing" {...stepVariants} exit={{ opacity: 0 }}>
-                        <Sparkles className="w-6 h-6 text-[#90A955] animate-pulse" />
+                      <motion.div
+                        key="analyzing"
+                        variants={stepVariants}
+                        initial="hidden"
+                        animate="visible"
+                        exit="exit"
+                      >
+                        <Sparkles className="w-6 h-6 text-fern animate-pulse" />
                       </motion.div>
                     ) : step === 'done' ? (
                       <motion.div key="done" initial={{ scale: 0 }} animate={{ scale: 1.2 }}>
                         <MapPin className="w-6 h-6 text-white" />
                       </motion.div>
                     ) : (
-                      <motion.div key="search" {...stepVariants} exit={{ opacity: 0 }}>
-                        <Search className="w-6 h-6 text-[#6B8E4E]" />
+                      <motion.div
+                        key="search"
+                        variants={stepVariants}
+                        initial="hidden"
+                        animate="visible"
+                        exit="exit"
+                      >
+                        <Search className="w-6 h-6 text-olive" />
                       </motion.div>
                     )}
                   </AnimatePresence>
                 </motion.div>
 
-                <h2 className="text-xl font-bold text-[#E8F0E3] mb-1">
+                <h2 className="text-xl font-bold text-mist mb-1">
                   {step === 'done' ? "Added to Map!" : step === 'analyzing' ? "Reading the Vibe..." : "Find a Place"}
                 </h2>
-                <p className="text-sm text-[#90A955]/80 max-w-[240px]">
+                <p className="text-sm text-fern/80 max-w-[240px]">
                   {step === 'done' 
                     ? "Creating your personalized card" 
                     : step === 'analyzing'
@@ -252,10 +270,10 @@ export default function AddPlaceModal() {
                 {step === 'input' && (
                   <>
                     <div className={cn("relative group transition-all duration-300", isLoading && "opacity-50 pointer-events-none blur-[0.5px]")}>
-                      <div className="absolute inset-0 bg-[#ffffff]/5 rounded-2xl blur-sm group-focus-within:bg-[#ffffff]/10 transition-colors" />
+                      <div className="absolute inset-0 bg-white/5 rounded-2xl blur-sm group-focus-within:bg-white/10 transition-colors" />
                       <div className="relative">
                         <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                          <Search className="w-5 h-5 text-[#6B8E4E]" />
+                          <Search className="w-5 h-5 text-olive" />
                         </div>
                         <input
                           type="text"
@@ -264,7 +282,7 @@ export default function AddPlaceModal() {
                           onKeyDown={handleKeyDown}
                           placeholder="Search places..."
                           disabled={isLoading}
-                          className="w-full pl-12 pr-4 py-4 bg-[#0d1a0d]/80 border border-[#ffffff]/10 rounded-2xl text-[#E8F0E3] placeholder-[#6B8E4E]/40 focus:outline-none focus:border-[#90A955]/50 focus:ring-1 focus:ring-[#90A955]/50 transition-all font-medium text-sm"
+                          className="w-full pl-12 pr-4 py-4 bg-deep/80 border border-white/10 rounded-2xl text-mist placeholder-olive/40 focus:outline-none focus:border-fern/50 focus:ring-1 focus:ring-fern/50 transition-all font-medium text-sm"
                         />
                       </div>
                     </div>
@@ -283,14 +301,14 @@ export default function AddPlaceModal() {
                       <div className="flex gap-3">
                         <button
                           onClick={handleClose}
-                          className="flex-1 px-4 py-3.5 border border-[#ffffff]/10 rounded-xl text-[#90A955] hover:bg-[#ffffff]/5 transition-colors font-medium text-sm cursor-pointer"
+                          className="flex-1 px-4 py-3.5 border border-white/10 rounded-xl text-fern hover:bg-white/5 transition-colors font-medium text-sm cursor-pointer"
                         >
                           Cancel
                         </button>
                         <button
                           onClick={handleSearch}
                           disabled={!inputValue.trim()}
-                          className="flex-[2] px-4 py-3.5 bg-gradient-to-r from-[#6B8E4E] to-[#4A7C59] rounded-xl text-white font-bold hover:shadow-[0_0_20px_rgba(107,142,78,0.3)] hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50 disabled:cursor-not-allowed text-sm cursor-pointer"
+                          className="flex-[2] px-4 py-3.5 bg-linear-to-r from-olive to-moss rounded-xl text-white font-bold hover:shadow-[0_0_20px_rgba(107,142,78,0.3)] hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50 disabled:cursor-not-allowed text-sm cursor-pointer"
                         >
                           Search
                         </button>
@@ -301,9 +319,9 @@ export default function AddPlaceModal() {
 
                 {/* Progress Bar */}
                 {step !== 'input' && step !== 'done' && (
-                  <div className="w-full h-1.5 bg-[#ffffff]/10 rounded-full overflow-hidden mt-2">
+                  <div className="w-full h-1.5 bg-white/10 rounded-full overflow-hidden mt-2">
                     <motion.div 
-                      className="h-full bg-[#90A955] rounded-full"
+                      className="h-full bg-fern rounded-full"
                       initial={{ width: "0%" }}
                       animate={{ 
                         width: step === 'processing' ? '30%' : step === 'analyzing' ? '70%' : '100%' 

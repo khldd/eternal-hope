@@ -32,10 +32,10 @@ export default function MapView() {
 
   if (!GOOGLE_MAPS_API_KEY) {
     return (
-      <div className="flex items-center justify-center h-screen bg-[#0a120a] text-[#E8F0E3]">
-        <div className="text-center p-8 bg-[#1a2818]/60 border border-[#4A7C59]/30 rounded-2xl">
+      <div className="flex items-center justify-center h-screen bg-deep text-mist">
+        <div className="text-center p-8 bg-forest/60 border border-moss/30 rounded-2xl">
           <h2 className="text-xl font-bold mb-2">Configuration Error</h2>
-          <p className="text-[#90A955]">Google Maps API Key is missing.</p>
+          <p className="text-fern">Google Maps API Key is missing.</p>
         </div>
       </div>
     )
@@ -43,7 +43,7 @@ export default function MapView() {
 
   return (
     <APIProvider apiKey={GOOGLE_MAPS_API_KEY} libraries={['places', 'marker']}>
-      <div className="relative h-screen w-full overflow-hidden bg-[#0a120a]">
+      <div className="relative h-screen w-full overflow-hidden bg-deep">
         {/* Map layer */}
         <Map />
 

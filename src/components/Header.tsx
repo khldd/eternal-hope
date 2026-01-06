@@ -62,7 +62,6 @@ export default function Header() {
     const handler = setTimeout(async () => {
       setIsSearchingGoogle(true)
       try {
-        // @ts-ignore - searchByText availability
         const { places } = await placesLibrary.Place.searchByText({
           textQuery: query,
           fields: ['id', 'displayName', 'formattedAddress', 'location', 'photos', 'types'],
@@ -88,7 +87,6 @@ export default function Header() {
     g => !places.some(p => p.google_place_id === g.id)
   )
 
-  const hasResults = localMatches.length > 0 || newDiscoveries.length > 0
   const showDropdown = isFocused && searchQuery.trim().length > 0
 
   const handleSelectLocal = (id: string) => {
@@ -107,7 +105,7 @@ export default function Header() {
   return (
     <header className="relative z-30 pointer-events-none">
       {/* Background gradient for legibility */}
-      <div className="absolute inset-x-0 top-0 h-48 bg-gradient-to-b from-[#0a120a] via-[#0a120a]/80 to-transparent pointer-events-none" />
+      <div className="absolute inset-x-0 top-0 h-48 bg-linear-to-b from-deep via-deep/80 to-transparent pointer-events-none" />
 
       <div className="relative px-4 py-4 sm:px-6 pointer-events-auto">
         {/* Top row: Logo and actions */}
@@ -116,17 +114,17 @@ export default function Header() {
           <motion.div 
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="flex items-center gap-3 p-2 pr-4 bg-[#141e14]/40 backdrop-blur-md border border-[#3D5A3D]/30 rounded-2xl shadow-lg ring-1 ring-white/5"
+            className="flex items-center gap-3 p-2 pr-4 bg-shadow/40 backdrop-blur-md border border-forest/30 rounded-2xl shadow-lg ring-1 ring-white/5"
           >
-            <div className="relative w-10 h-10 rounded-xl bg-gradient-to-br from-[#6B8E4E] to-[#4A7C59] flex items-center justify-center shadow-lg shadow-[#4A7C59]/20 group overflow-hidden">
+            <div className="relative w-10 h-10 rounded-xl bg-linear-to-br from-olive to-moss flex items-center justify-center shadow-lg shadow-moss/20 group overflow-hidden">
               <Leaf className="w-5 h-5 text-white relative z-10" />
               <div className="absolute inset-0 bg-white/20 blur opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
             </div>
             <div>
-              <h1 className="text-sm font-bold text-[#E8F0E3] tracking-tight leading-tight">
+              <h1 className="text-sm font-bold text-mist tracking-tight leading-tight">
                 Eternal Hope
               </h1>
-              <p className="text-[10px] text-[#90A955] uppercase tracking-wider font-semibold">
+              <p className="text-[10px] text-fern uppercase tracking-wider font-semibold">
                 {places.length} {places.length === 1 ? 'Place' : 'Places'}
               </p>
             </div>
@@ -140,7 +138,7 @@ export default function Header() {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={toggleUser}
-              className="group relative flex items-center gap-2 px-1.5 py-1.5 bg-[#141e14]/40 backdrop-blur-md border border-[#3D5A3D]/30 rounded-full transition-all shadow-lg ring-1 ring-white/5 cursor-pointer"
+              className="group relative flex items-center gap-2 px-1.5 py-1.5 bg-shadow/40 backdrop-blur-md border border-forest/30 rounded-full transition-all shadow-lg ring-1 ring-white/5 cursor-pointer"
             >
               <AnimatePresence mode="wait">
                 <motion.div
@@ -152,14 +150,14 @@ export default function Header() {
                   className={cn(
                     "w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold shadow-inner",
                     currentUser === 'khaled'
-                      ? 'bg-gradient-to-br from-[#4A7C59] to-[#3D5A3D] text-white'
-                      : 'bg-gradient-to-br from-[#90A955] to-[#6B8E4E] text-white'
+                      ? 'bg-linear-to-br from-moss to-forest text-white'
+                      : 'bg-linear-to-br from-fern to-olive text-white'
                   )}
                 >
                   {currentUser === 'khaled' ? 'K' : 'A'}
                 </motion.div>
               </AnimatePresence>
-              <span className="text-sm font-medium text-[#B8D4A8] capitalize pr-3 hidden sm:inline-block">
+              <span className="text-sm font-medium text-sage capitalize pr-3 hidden sm:inline-block">
                 {currentUser}
               </span>
             </motion.button>
@@ -176,13 +174,13 @@ export default function Header() {
             transition={{ delay: 0.1 }}
             className="relative flex-1 group"
           >
-            <div className="absolute inset-0 bg-[#141e14]/40 backdrop-blur-md rounded-2xl border border-[#3D5A3D]/30 shadow-lg ring-1 ring-white/5 transition-colors group-focus-within:bg-[#141e14]/60 group-focus-within:border-[#90A955]/50" />
+            <div className="absolute inset-0 bg-shadow/40 backdrop-blur-md rounded-2xl border border-forest/30 shadow-lg ring-1 ring-white/5 transition-colors group-focus-within:bg-shadow/60 group-focus-within:border-fern/50" />
             
             <div className="relative flex items-center">
               {isSearchingGoogle ? (
-                <Loader2 className="absolute left-3.5 w-4 h-4 text-[#90A955] animate-spin" />
+                <Loader2 className="absolute left-3.5 w-4 h-4 text-fern animate-spin" />
               ) : (
-                <Search className="absolute left-3.5 w-4 h-4 text-[#6B8E4E] transition-colors group-focus-within:text-[#90A955]" />
+                <Search className="absolute left-3.5 w-4 h-4 text-olive transition-colors group-focus-within:text-fern" />
               )}
               <input
                 type="text"
@@ -190,7 +188,7 @@ export default function Header() {
                 onFocus={() => setIsFocused(true)}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search our world or find new places..."
-                className="relative w-full pl-10 pr-4 py-3 bg-transparent text-[#E8F0E3] placeholder-[#6B8E4E]/60 focus:outline-none text-sm font-medium rounded-2xl"
+                className="relative w-full pl-10 pr-4 py-3 bg-transparent text-mist placeholder-olive/60 focus:outline-none text-sm font-medium rounded-2xl"
               />
             </div>
 
@@ -201,12 +199,12 @@ export default function Header() {
                   initial={{ opacity: 0, y: 10, scale: 0.95 }}
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                  className="absolute top-full left-0 right-0 mt-2 bg-[#0d1a0d]/95 backdrop-blur-xl border border-[#ffffff]/10 rounded-2xl shadow-2xl overflow-hidden max-h-[60vh] overflow-y-auto"
+                  className="absolute top-full left-0 right-0 mt-2 bg-deep/95 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl overflow-hidden max-h-[60vh] overflow-y-auto"
                 >
                   {/* Local Results */}
                   {localMatches.length > 0 && (
                     <div className="p-2">
-                      <h3 className="px-3 py-2 text-[10px] font-bold uppercase text-[#6B8E4E] tracking-wider sticky top-0 bg-[#0d1a0d]/95 backdrop-blur-xl z-10 flex items-center gap-2">
+                      <h3 className="px-3 py-2 text-[10px] font-bold uppercase text-olive tracking-wider sticky top-0 bg-deep/95 backdrop-blur-xl z-10 flex items-center gap-2">
                         <MapPin className="w-3 h-3" /> Our Collection
                       </h3>
                       <div className="space-y-1">
@@ -214,17 +212,17 @@ export default function Header() {
                           <button
                             key={place.id}
                             onClick={() => handleSelectLocal(place.id)}
-                            className="w-full text-left px-3 py-2.5 rounded-xl hover:bg-[#ffffff]/5 transition-colors group flex items-start gap-3"
+                            className="w-full text-left px-3 py-2.5 rounded-xl hover:bg-white/5 transition-colors group flex items-start gap-3"
                           >
-                            <div className="mt-0.5 w-5 h-5 rounded-md bg-[#2d4a2d] flex items-center justify-center text-[#90A955]">
+                            <div className="mt-0.5 w-5 h-5 rounded-md bg-[#2d4a2d] flex items-center justify-center text-fern">
                               {place.status === 'favorite' ? <Sparkles className="w-3 h-3" /> : <MapPin className="w-3 h-3" />}
                             </div>
                             <div>
-                              <div className="text-sm font-medium text-[#E8F0E3] group-hover:text-white transition-colors">
+                              <div className="text-sm font-medium text-mist group-hover:text-white transition-colors">
                                 {place.name}
                               </div>
                               {place.address && (
-                                <div className="text-xs text-[#ffffff]/40 line-clamp-1">{place.address}</div>
+                                <div className="text-xs text-white/40 line-clamp-1">{place.address}</div>
                               )}
                             </div>
                           </button>
@@ -235,30 +233,30 @@ export default function Header() {
 
                   {/* Divider */}
                   {localMatches.length > 0 && newDiscoveries.length > 0 && (
-                    <div className="h-px bg-[#ffffff]/10 mx-2 my-1" />
+                    <div className="h-px bg-white/10 mx-2 my-1" />
                   )}
 
                   {/* Google Results */}
                   {newDiscoveries.length > 0 ? (
                     <div className="p-2">
-                      <h3 className="px-3 py-2 text-[10px] font-bold uppercase text-[#90A955] tracking-wider sticky top-0 bg-[#0d1a0d]/95 backdrop-blur-xl z-10 flex items-center gap-2">
+                      <h3 className="px-3 py-2 text-[10px] font-bold uppercase text-fern tracking-wider sticky top-0 bg-deep/95 backdrop-blur-xl z-10 flex items-center gap-2">
                         <Globe className="w-3 h-3" /> New Discoveries
                       </h3>
                       <div className="space-y-1">
                         {newDiscoveries.map(place => (
                           <div
                             key={place.id}
-                            className="w-full flex items-center justify-between px-3 py-2.5 rounded-xl hover:bg-[#ffffff]/5 transition-colors group"
+                            className="w-full flex items-center justify-between px-3 py-2.5 rounded-xl hover:bg-white/5 transition-colors group"
                           >
                             <div className="flex items-start gap-3 overflow-hidden">
-                              <div className="mt-0.5 w-5 h-5 rounded-md bg-[#ffffff]/5 flex items-center justify-center text-[#ffffff]/40">
+                              <div className="mt-0.5 w-5 h-5 rounded-md bg-white/5 flex items-center justify-center text-white/40">
                                 <Globe className="w-3 h-3" />
                               </div>
                               <div className="min-w-0">
-                                <div className="text-sm font-medium text-[#E8F0E3] group-hover:text-white transition-colors truncate">
+                                <div className="text-sm font-medium text-mist group-hover:text-white transition-colors truncate">
                                   {place.displayName}
                                 </div>
-                                <div className="text-xs text-[#ffffff]/40 line-clamp-1">
+                                <div className="text-xs text-white/40 line-clamp-1">
                                   {place.formattedAddress}
                                 </div>
                               </div>
@@ -266,7 +264,7 @@ export default function Header() {
                             
                             <button
                               onClick={() => handleAddDiscovery(place)}
-                              className="ml-2 p-1.5 rounded-lg bg-[#4A7C59] hover:bg-[#5a8c69] text-white shadow-lg transition-all hover:scale-105 active:scale-95 shrink-0"
+                              className="ml-2 p-1.5 rounded-lg bg-moss hover:bg-[#5a8c69] text-white shadow-lg transition-all hover:scale-105 active:scale-95 shrink-0"
                               title="Add to Map"
                             >
                               <Plus className="w-4 h-4" />
@@ -277,7 +275,7 @@ export default function Header() {
                     </div>
                   ) : searchQuery.trim().length > 0 && isSearchingGoogle === false && localMatches.length === 0 && (
                     <div className="p-8 text-center">
-                      <p className="text-sm text-[#ffffff]/30 italic">No places found anywhere...</p>
+                      <p className="text-sm text-white/30 italic">No places found anywhere...</p>
                     </div>
                   )}
                 </motion.div>
@@ -299,8 +297,8 @@ export default function Header() {
                 className={cn(
                   "px-4 py-2.5 rounded-full text-xs font-bold uppercase tracking-wider whitespace-nowrap transition-all shadow-lg backdrop-blur-sm cursor-pointer",
                   statusFilter === value
-                    ? 'bg-[#4A7C59] text-white ring-1 ring-[#90A955]/50 shadow-[#4A7C59]/30 translate-y-[1px]'
-                    : 'bg-[#141e14]/40 border border-[#3D5A3D]/30 text-[#90A955] hover:bg-[#3D5A3D]/20 hover:text-[#B8D4A8] ring-1 ring-white/5'
+                    ? 'bg-moss text-white ring-1 ring-fern/50 shadow-moss/30 translate-y-px'
+                    : 'bg-shadow/40 border border-forest/30 text-fern hover:bg-forest/20 hover:text-sage ring-1 ring-white/5'
                 )}
               >
                 {label}

@@ -6,7 +6,8 @@ export async function POST(request: NextRequest) {
     const supabase = await createClient()
     const noteData = await request.json()
 
-    const { data: note, error } = await supabase
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { data: note, error } = await (supabase as any)
       .from('notes')
       .insert(noteData)
       .select()

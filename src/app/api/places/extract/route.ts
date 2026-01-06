@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { parseGoogleMapsUrl, isGoogleMapsUrl, extractSearchQuery } from '@/lib/google-maps-parser'
+import { parseGoogleMapsUrl, isGoogleMapsUrl } from '@/lib/google-maps-parser'
 
 interface PlaceDetails {
   placeId: string
@@ -47,7 +47,7 @@ export async function POST(request: NextRequest) {
     
     // For development/demo, return mock data if no API key
     if (!process.env.GOOGLE_MAPS_API_KEY) {
-      return NextResponse.json(getMockPlaceData(parsed, url))
+      return NextResponse.json(getMockPlaceData(parsed))
     }
 
     // Try to get place details using Place ID or search
@@ -209,8 +209,7 @@ async function reverseGeocode(
 
 // Mock data for development without API key
 function getMockPlaceData(
-  parsed: ReturnType<typeof parseGoogleMapsUrl>,
-  originalUrl: string
+  parsed: ReturnType<typeof parseGoogleMapsUrl>
 ): PlaceDetails {
   const mockPlaces = [
     {

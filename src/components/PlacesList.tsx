@@ -6,10 +6,10 @@ import { MapPin, Star, Sparkles, ChevronRight } from 'lucide-react'
 import type { PlaceStatus } from '@/types/database'
 
 const statusColors: Record<PlaceStatus, { bg: string; text: string; dot: string }> = {
-  planned: { bg: 'bg-[#6B8E4E]/20', text: 'text-[#6B8E4E]', dot: 'bg-[#6B8E4E]' },
-  been_there: { bg: 'bg-[#3D5A3D]/20', text: 'text-[#3D5A3D]', dot: 'bg-[#3D5A3D]' },
-  favorite: { bg: 'bg-[#90A955]/20', text: 'text-[#90A955]', dot: 'bg-[#90A955]' },
-  dream: { bg: 'bg-[#4A7C59]/20', text: 'text-[#4A7C59]', dot: 'bg-[#4A7C59]' },
+  planned: { bg: 'bg-olive/20', text: 'text-olive', dot: 'bg-olive' },
+  been_there: { bg: 'bg-forest/20', text: 'text-forest', dot: 'bg-forest' },
+  favorite: { bg: 'bg-fern/20', text: 'text-fern', dot: 'bg-fern' },
+  dream: { bg: 'bg-moss/20', text: 'text-moss', dot: 'bg-moss' },
 }
 
 const statusLabels: Record<PlaceStatus, string> = {
@@ -26,12 +26,12 @@ export default function PlacesList() {
   if (filteredPlaces.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center py-16 px-4 text-center">
-        <div className="w-16 h-16 rounded-2xl bg-[#3D5A3D]/20 flex items-center justify-center mb-4">
-          <MapPin className="w-8 h-8 text-[#6B8E4E]" />
+        <div className="w-16 h-16 rounded-2xl bg-forest/20 flex items-center justify-center mb-4">
+          <MapPin className="w-8 h-8 text-olive" />
         </div>
-        <h3 className="text-lg font-medium text-[#E8F0E3] mb-2">No places yet</h3>
-        <p className="text-sm text-[#6B8E4E] max-w-xs">
-          Add your first place by clicking the "Add Place" button and pasting a Google Maps link.
+        <h3 className="text-lg font-medium text-mist mb-2">No places yet</h3>
+        <p className="text-sm text-olive max-w-xs">
+          Add your first place by clicking the &quot;Add Place&quot; button and pasting a Google Maps link.
         </p>
       </div>
     )
@@ -44,7 +44,7 @@ export default function PlacesList() {
   }
 
   return (
-    <div className="divide-y divide-[#3D5A3D]/20">
+    <div className="divide-y divide-forest/20">
       {filteredPlaces.map((place) => {
         const colors = statusColors[place.status]
         
@@ -52,7 +52,7 @@ export default function PlacesList() {
           <button
             key={place.id}
             onClick={() => handlePlaceClick(place.id, place.latitude, place.longitude)}
-            className="w-full p-4 text-left hover:bg-[#3D5A3D]/10 transition-colors group"
+            className="w-full p-4 text-left hover:bg-forest/10 transition-colors group"
           >
             <div className="flex items-start gap-3">
               {/* Status dot */}
@@ -61,14 +61,14 @@ export default function PlacesList() {
               {/* Content */}
               <div className="flex-1 min-w-0">
                 <div className="flex items-start justify-between gap-2">
-                  <h3 className="font-medium text-[#E8F0E3] truncate group-hover:text-[#B8D4A8] transition-colors">
+                  <h3 className="font-medium text-mist truncate group-hover:text-sage transition-colors">
                     {place.name}
                   </h3>
-                  <ChevronRight className="w-4 h-4 text-[#6B8E4E] opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0" />
+                  <ChevronRight className="w-4 h-4 text-olive opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0" />
                 </div>
 
                 {place.address && (
-                  <p className="text-sm text-[#6B8E4E] truncate mt-0.5">
+                  <p className="text-sm text-olive truncate mt-0.5">
                     {place.address}
                   </p>
                 )}
@@ -82,21 +82,21 @@ export default function PlacesList() {
 
                   {/* Rating */}
                   {place.rating && (
-                    <span className="flex items-center gap-1 text-xs text-[#B8D4A8]">
-                      <Star className="w-3 h-3 fill-[#90A955] text-[#90A955]" />
+                    <span className="flex items-center gap-1 text-xs text-sage">
+                      <Star className="w-3 h-3 fill-fern text-fern" />
                       {place.rating.toFixed(1)}
                     </span>
                   )}
 
                   {/* Notes count */}
                   {place.notes && place.notes.length > 0 && (
-                    <span className="text-xs text-[#6B8E4E]">
+                    <span className="text-xs text-olive">
                       {place.notes.length} note{place.notes.length !== 1 ? 's' : ''}
                     </span>
                   )}
 
                   {/* Added date */}
-                  <span className="text-xs text-[#4A7C59]">
+                  <span className="text-xs text-moss">
                     {format(new Date(place.created_at), 'MMM d')}
                   </span>
                 </div>
@@ -104,18 +104,18 @@ export default function PlacesList() {
                 {/* Vibe tags */}
                 {place.ai_vibe_tags && place.ai_vibe_tags.length > 0 && (
                   <div className="flex items-center gap-1.5 mt-2 overflow-hidden">
-                    <Sparkles className="w-3 h-3 text-[#90A955] flex-shrink-0" />
+                    <Sparkles className="w-3 h-3 text-fern flex-shrink-0" />
                     <div className="flex gap-1.5 overflow-x-auto scrollbar-hide">
                       {place.ai_vibe_tags.slice(0, 3).map((tag, i) => (
                         <span
                           key={i}
-                          className="px-2 py-0.5 bg-[#4A7C59]/10 rounded text-xs text-[#90A955] whitespace-nowrap"
+                          className="px-2 py-0.5 bg-moss/10 rounded text-xs text-fern whitespace-nowrap"
                         >
                           {tag}
                         </span>
                       ))}
                       {place.ai_vibe_tags.length > 3 && (
-                        <span className="text-xs text-[#6B8E4E]">
+                        <span className="text-xs text-olive">
                           +{place.ai_vibe_tags.length - 3}
                         </span>
                       )}

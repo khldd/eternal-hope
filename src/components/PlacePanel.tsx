@@ -30,15 +30,15 @@ import {
 import type { PlaceStatus, Author, Note } from '@/types/database'
 
 const statusConfig: Record<PlaceStatus, { label: string; icon: React.ReactNode; color: string; bg: string }> = {
-  planned: { label: 'Planned', icon: <Compass className="w-4 h-4" />, color: '#B8D4A8', bg: 'bg-[#6B8E4E]' },
-  been_there: { label: 'Been There', icon: <MapIcon className="w-4 h-4" />, color: '#90A955', bg: 'bg-[#3D5A3D]' },
-  favorite: { label: 'Favorite', icon: <Heart className="w-4 h-4 fill-current" />, color: '#E8F0E3', bg: 'bg-[#90A955]' },
-  dream: { label: 'Dream', icon: <Cloud className="w-4 h-4" />, color: '#90A955', bg: 'bg-[#4A7C59]' },
+  planned: { label: 'Planned', icon: <Compass className="w-4 h-4" />, color: 'var(--color-sage)', bg: 'bg-olive' },
+  been_there: { label: 'Been There', icon: <MapIcon className="w-4 h-4" />, color: 'var(--color-fern)', bg: 'bg-forest' },
+  favorite: { label: 'Favorite', icon: <Heart className="w-4 h-4 fill-current" />, color: 'var(--color-mist)', bg: 'bg-fern' },
+  dream: { label: 'Dream', icon: <Cloud className="w-4 h-4" />, color: 'var(--color-fern)', bg: 'bg-moss' },
 }
 
 const authorColors: Record<Author, { bg: string; border: string; text: string }> = {
-  khaled: { bg: 'bg-[#2d4a2d]/30', border: 'border-[#4A7C59]/30', text: 'text-[#90A955]' },
-  amal: { bg: 'bg-[#3d5a3d]/30', border: 'border-[#6B8E4E]/30', text: 'text-[#B8D4A8]' },
+  khaled: { bg: 'bg-moss/30', border: 'border-moss/30', text: 'text-fern' },
+  amal: { bg: 'bg-forest/30', border: 'border-olive/30', text: 'text-sage' },
 }
 
 export default function PlacePanel() {
@@ -301,7 +301,7 @@ export default function PlacePanel() {
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
             transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-            className="fixed inset-y-0 right-0 w-full max-w-[480px] z-50 flex flex-col bg-[#0a120a]/80 backdrop-blur-2xl border-l border-[#ffffff]/5 shadow-2xl"
+            className="fixed inset-y-0 right-0 w-full max-w-[480px] z-50 flex flex-col bg-deep/80 backdrop-blur-2xl border-l border-white/5 shadow-2xl"
           >
         {/* Grain texture */}
         <div
@@ -312,8 +312,8 @@ export default function PlacePanel() {
         />
 
         {/* Ambient Glows */}
-        <div className="absolute top-0 right-0 w-96 h-96 bg-[#4A7C59]/10 rounded-full blur-[100px] pointer-events-none" />
-        <div className="absolute bottom-0 left-0 w-96 h-96 bg-[#90A955]/5 rounded-full blur-[100px] pointer-events-none" />
+        <div className="absolute top-0 right-0 w-96 h-96 bg-moss/10 rounded-full blur-[100px] pointer-events-none" />
+        <div className="absolute bottom-0 left-0 w-96 h-96 bg-fern/5 rounded-full blur-[100px] pointer-events-none" />
 
         {/* Photo Gallery - Cinematic */}
         <div className="relative h-72 group shrink-0 bg-black overflow-hidden">
@@ -330,15 +330,15 @@ export default function PlacePanel() {
                 className="absolute inset-0 w-full h-full object-cover"
               />
             ) : (
-              <div className="w-full h-full flex flex-col items-center justify-center bg-[#141e14] text-[#4A7C59]">
+              <div className="w-full h-full flex flex-col items-center justify-center bg-shadow text-moss">
                 <ImageIcon className="w-12 h-12 mb-3 opacity-20" />
                 <p className="text-sm font-medium opacity-40">No photos yet</p>
               </div>
             )}
           </AnimatePresence>
           
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0a120a] via-transparent to-transparent" />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-transparent opacity-60" />
+          <div className="absolute inset-0 bg-linear-to-t from-deep via-transparent to-transparent" />
+          <div className="absolute inset-0 bg-linear-to-b from-black/60 via-transparent to-transparent opacity-60" />
 
           {/* Navigation */}
           {photos.length > 1 && (
@@ -390,7 +390,7 @@ export default function PlacePanel() {
             {/* Header Info */}
             <div className="relative">
               <div className="flex items-start justify-between gap-4 mb-2">
-                <h2 className="text-3xl font-bold text-[#E8F0E3] leading-tight font-display tracking-tight break-words">
+                <h2 className="text-3xl font-bold text-mist leading-tight font-display tracking-tight break-words">
                   {place.name}
                 </h2>
                 {place.rating && (
@@ -402,7 +402,7 @@ export default function PlacePanel() {
               </div>
 
               {place.address && (
-                <p className="text-[#90A955] flex items-center gap-2 text-sm font-medium opacity-90 break-words">
+                <p className="text-fern flex items-center gap-2 text-sm font-medium opacity-90 break-words">
                   <MapPin className="w-4 h-4 shrink-0" />
                   <span className="line-clamp-2">{place.address}</span>
                 </p>
@@ -415,7 +415,7 @@ export default function PlacePanel() {
                   <button
                     onClick={() => setIsStatusOpen(!isStatusOpen)}
                     className={cn(
-                      "flex items-center gap-2 px-4 py-2.5 rounded-xl border border-white/5 transition-all outline-none ring-offset-2 ring-offset-[#0d1a0d] focus:ring-2 focus:ring-[#90A955]/50 hover:bg-opacity-30",
+                      "flex items-center gap-2 px-4 py-2.5 rounded-xl border border-white/5 transition-all outline-none ring-offset-2 ring-offset-deep focus:ring-2 focus:ring-fern/50 hover:bg-opacity-30",
                       statusInfo.bg, 
                       "bg-opacity-20"
                     )}
@@ -437,15 +437,15 @@ export default function PlacePanel() {
                         initial={{ opacity: 0, y: 10, scale: 0.95 }}
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                        className="absolute top-full left-0 mt-2 w-48 bg-[#141e14] border border-[#ffffff]/10 rounded-xl shadow-2xl overflow-hidden z-20"
+                        className="absolute top-full left-0 mt-2 w-48 bg-shadow border border-white/10 rounded-xl shadow-2xl overflow-hidden z-20"
                       >
                         {(Object.entries(statusConfig) as [PlaceStatus, typeof statusInfo][]).map(([key, config]) => (
                           <button
                             key={key}
                             onClick={() => handleStatusChange(key)}
                             className={cn(
-                              "w-full flex items-center gap-3 px-4 py-3 hover:bg-[#ffffff]/5 transition-colors",
-                              place.status === key ? 'bg-[#ffffff]/5 text-white' : 'text-[#B8D4A8]'
+                              "w-full flex items-center gap-3 px-4 py-3 hover:bg-white/5 transition-colors",
+                              place.status === key ? 'bg-white/5 text-white' : 'text-sage'
                             )}
                           >
                             <div style={{ color: config.color }}>{config.icon}</div>
@@ -462,9 +462,9 @@ export default function PlacePanel() {
                     href={place.website}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-2 px-4 py-2.5 bg-[#ffffff]/5 border border-[#ffffff]/5 rounded-xl text-[#E8F0E3] hover:bg-[#ffffff]/10 transition-all text-sm font-medium hover:scale-[1.02] active:scale-[0.98]"
+                    className="flex items-center gap-2 px-4 py-2.5 bg-white/5 border border-white/5 rounded-xl text-mist hover:bg-white/10 transition-all text-sm font-medium hover:scale-[1.02] active:scale-[0.98]"
                   >
-                    <Globe className="w-4 h-4 text-[#90A955]" />
+                    <Globe className="w-4 h-4 text-fern" />
                     Website
                   </a>
                 )}
@@ -473,28 +473,28 @@ export default function PlacePanel() {
                   href={place.google_maps_url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-2 px-4 py-2.5 bg-[#ffffff]/5 border border-[#ffffff]/5 rounded-xl text-[#E8F0E3] hover:bg-[#ffffff]/10 transition-all text-sm font-medium hover:scale-[1.02] active:scale-[0.98]"
+                  className="flex items-center gap-2 px-4 py-2.5 bg-white/5 border border-white/5 rounded-xl text-mist hover:bg-white/10 transition-all text-sm font-medium hover:scale-[1.02] active:scale-[0.98]"
                 >
-                  <ExternalLink className="w-4 h-4 text-[#90A955]" />
+                  <ExternalLink className="w-4 h-4 text-fern" />
                   Maps
                 </a>
               </div>
             </div>
 
-            <hr className="border-[#ffffff]/5" />
+            <hr className="border-white/5" />
 
             {/* AI Insights Section */}
             {(place.ai_summary || place.ai_couple_insights || place.ai_poetic_description || place.ai_general_description) && (
               <div className="space-y-5">
                 <div className="flex items-center justify-between">
-                  <h3 className="text-xs font-bold uppercase tracking-wider text-[#6B8E4E] flex items-center gap-2">
+                  <h3 className="text-xs font-bold uppercase tracking-wider text-olive flex items-center gap-2">
                     <Sparkles className="w-3.5 h-3.5" />
                     Our Vibe
                   </h3>
                   <button
                     onClick={handleRefreshVibe}
                     disabled={isRefreshing}
-                    className="p-2 text-[#6B8E4E] hover:text-[#E8F0E3] hover:bg-[#ffffff]/5 rounded-lg transition-colors disabled:opacity-50"
+                    className="p-2 text-olive hover:text-mist hover:bg-white/5 rounded-lg transition-colors disabled:opacity-50"
                   >
                     <RefreshCw className={cn("w-3.5 h-3.5", isRefreshing && "animate-spin")} />
                   </button>
@@ -505,13 +505,13 @@ export default function PlacePanel() {
                   <motion.blockquote 
                     initial={{ opacity: 0, scale: 0.95 }}
                     animate={{ opacity: 1, scale: 1 }}
-                    className="relative p-6 bg-[#1a2818]/40 border border-[#4A7C59]/20 rounded-2xl"
+                    className="relative p-6 bg-[#1a2818]/40 border border-moss/20 rounded-2xl"
                   >
-                    <div className="absolute top-4 left-4 text-[#4A7C59]/20 text-4xl font-serif">"</div>
+                    <div className="absolute top-4 left-4 text-moss/20 text-4xl font-serif">&quot;</div>
                     <p className="relative z-10 text-[#CEDFBC] font-serif text-lg leading-relaxed italic text-center">
                       {place.ai_poetic_description}
                     </p>
-                    <div className="absolute bottom-4 right-4 text-[#4A7C59]/20 text-4xl font-serif rotate-180">"</div>
+                    <div className="absolute bottom-4 right-4 text-moss/20 text-4xl font-serif rotate-180">&quot;</div>
                   </motion.blockquote>
                 )}
 
@@ -521,14 +521,14 @@ export default function PlacePanel() {
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.1 }}
-                    className="p-5 bg-gradient-to-br from-[#4A7C59]/10 to-[#1a2818]/40 border border-[#4A7C59]/20 rounded-2xl flex gap-4"
+                    className="p-5 bg-linear-to-br from-moss/10 to-[#1a2818]/40 border border-moss/20 rounded-2xl flex gap-4"
                   >
-                    <div className="shrink-0 w-10 h-10 rounded-full bg-[#4A7C59]/20 flex items-center justify-center text-xl">
+                    <div className="shrink-0 w-10 h-10 rounded-full bg-moss/20 flex items-center justify-center text-xl">
                       💚
                     </div>
                     <div className="space-y-1">
-                      <h4 className="text-sm font-bold text-[#90A955]">Why It's Perfect For Us</h4>
-                      <p className="text-sm text-[#E8F0E3]/90 leading-relaxed">
+                      <h4 className="text-sm font-bold text-fern">Why It&apos;s Perfect For Us</h4>
+                      <p className="text-sm text-mist/90 leading-relaxed">
                         {place.ai_couple_insights}
                       </p>
                     </div>
@@ -544,7 +544,7 @@ export default function PlacePanel() {
                         initial={{ opacity: 0, scale: 0 }}
                         animate={{ opacity: 1, scale: 1 }}
                         transition={{ delay: 0.2 + (i * 0.05) }}
-                        className="px-3 py-1.5 bg-[#ffffff]/5 border border-[#ffffff]/5 rounded-lg text-xs font-medium text-[#B8D4A8] hover:bg-[#ffffff]/10 hover:text-white transition-colors cursor-default"
+                        className="px-3 py-1.5 bg-white/5 border border-white/5 rounded-lg text-xs font-medium text-sage hover:bg-white/10 hover:text-white transition-colors cursor-default"
                       >
                         #{tag}
                       </motion.span>
@@ -558,7 +558,7 @@ export default function PlacePanel() {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 0.3 }}
-                    className="prose prose-invert prose-sm max-w-none text-[#A0B896] bg-[#0d1a0d]/50 p-5 rounded-2xl border border-[#ffffff]/5"
+                    className="prose prose-invert prose-sm max-w-none text-[#A0B896] bg-deep/50 p-5 rounded-2xl border border-white/5"
                   >
                     {place.ai_general_description}
                   </motion.div>
@@ -569,9 +569,9 @@ export default function PlacePanel() {
             {/* Notes Section */}
             <div className="space-y-4 pt-4">
               <div className="flex items-center justify-between">
-                <h3 className="text-xs font-bold uppercase tracking-wider text-[#6B8E4E] flex items-center gap-2">
+                <h3 className="text-xs font-bold uppercase tracking-wider text-olive flex items-center gap-2">
                   <span>Our Notes</span>
-                  <span className="px-1.5 py-0.5 bg-[#ffffff]/5 rounded text-[10px] text-[#90A955]">
+                  <span className="px-1.5 py-0.5 bg-white/5 rounded text-[10px] text-fern">
                     {place.notes?.length || 0}
                   </span>
                 </h3>
@@ -599,7 +599,7 @@ export default function PlacePanel() {
                             <div className="flex items-center gap-2">
                               <div className={cn(
                                 "w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold uppercase",
-                                note.author === 'khaled' ? 'bg-[#4A7C59] text-white' : 'bg-[#90A955] text-[#0d1a0d]'
+                                note.author === 'khaled' ? 'bg-moss text-white' : 'bg-fern text-deep'
                               )}>
                                 {note.author[0]}
                               </div>
@@ -607,19 +607,19 @@ export default function PlacePanel() {
                                 {note.author}
                               </span>
                             </div>
-                            <span className="text-[10px] text-[#ffffff]/30 font-medium">
+                            <span className="text-[10px] text-white/30 font-medium">
                               {format(new Date(note.created_at), 'MMM d, yyyy')}
                             </span>
                           </div>
-                          <p className="text-sm text-[#E8F0E3] leading-relaxed whitespace-pre-wrap font-serif">
+                          <p className="text-sm text-mist leading-relaxed whitespace-pre-wrap font-serif">
                             {note.content}
                           </p>
                         </motion.div>
                       )
                     })
                   ) : (
-                    <div className="text-center py-8 border border-dashed border-[#ffffff]/10 rounded-2xl">
-                      <p className="text-sm text-[#ffffff]/30 font-medium italic">No notes added yet...</p>
+                    <div className="text-center py-8 border border-dashed border-white/10 rounded-2xl">
+                      <p className="text-sm text-white/30 font-medium italic">No notes added yet...</p>
                     </div>
                   )}
                 </AnimatePresence>
@@ -628,7 +628,7 @@ export default function PlacePanel() {
 
               {/* Add Note Input */}
               <div className="relative mt-4 group">
-                <div className="absolute inset-0 bg-[#ffffff]/5 rounded-2xl blur-sm group-focus-within:bg-[#ffffff]/10 transition-colors" />
+                <div className="absolute inset-0 bg-white/5 rounded-2xl blur-sm group-focus-within:bg-white/10 transition-colors" />
                 <div className="relative">
                   <textarea
                     value={newNote}
@@ -636,7 +636,7 @@ export default function PlacePanel() {
                     placeholder={`Write a note as ${currentUser}...`}
                     rows={1}
                     style={{ minHeight: '52px' }}
-                    className="w-full pl-5 pr-14 py-4 bg-[#0d1a0d]/80 border border-[#ffffff]/10 rounded-2xl text-[#E8F0E3] placeholder-[#6B8E4E]/40 focus:outline-none focus:border-[#90A955]/50 focus:ring-1 focus:ring-[#90A955]/50 resize-y transition-all text-sm"
+                    className="w-full pl-5 pr-14 py-4 bg-deep/80 border border-white/10 rounded-2xl text-mist placeholder-olive/40 focus:outline-none focus:border-fern/50 focus:ring-1 focus:ring-fern/50 resize-y transition-all text-sm"
                     onKeyDown={(e) => {
                       if (e.key === 'Enter' && !e.shiftKey) {
                         e.preventDefault()
@@ -647,7 +647,7 @@ export default function PlacePanel() {
                   <button
                     onClick={handleAddNote}
                     disabled={!newNote.trim() || isSavingNote}
-                    className="absolute bottom-2.5 right-2.5 p-2 bg-[#4A7C59] hover:bg-[#5a8c69] rounded-xl text-white transition-all disabled:opacity-0 disabled:translate-y-2 shadow-lg hover:shadow-[#4A7C59]/30 hover:-translate-y-0.5 cursor-pointer"
+                    className="absolute bottom-2.5 right-2.5 p-2 bg-moss hover:bg-[#5a8c69] rounded-xl text-white transition-all disabled:opacity-0 disabled:translate-y-2 shadow-lg hover:shadow-moss/30 hover:-translate-y-0.5 cursor-pointer"
                   >
                     {isSavingNote ? (
                       <Loader2 className="w-4 h-4 animate-spin" />
@@ -660,7 +660,7 @@ export default function PlacePanel() {
             </div>
 
             {/* Footer Actions */}
-            <div className="pt-6 mt-8 border-t border-[#ffffff]/5">
+            <div className="pt-6 mt-8 border-t border-white/5">
               <button
                 onClick={handleDelete}
                 disabled={isDeleting}

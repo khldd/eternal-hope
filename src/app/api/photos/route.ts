@@ -45,7 +45,8 @@ export async function POST(request: Request) {
     }
 
     // 2. Insert record into photos table
-    const { data: photoRecord, error: dbError } = await supabase
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { data: photoRecord, error: dbError } = await (supabase as any)
       .from('photos')
       .insert({
         place_id,

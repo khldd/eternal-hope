@@ -90,7 +90,7 @@ export default function Map() {
   const hoveredPlace = filteredPlaces.find(p => p.id === hoveredPlaceId)
 
   return (
-    <div className="absolute inset-0 bg-[#0a120a]">
+    <div className="absolute inset-0 bg-deep">
       <GoogleMap
         // mapId is removed to revert to Raster Map which supports JSON styling fully
         defaultCenter={{ lat: mapCenter[1], lng: mapCenter[0] }}
@@ -137,14 +137,14 @@ export default function Map() {
                 initial={{ opacity: 0, scale: 0.9, y: 10 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.9 }}
-                className="bg-[#141e14] text-[#E8F0E3] rounded-lg overflow-hidden shadow-2xl border border-[#ffffff]/10"
+                className="bg-shadow text-mist rounded-lg overflow-hidden shadow-2xl border border-white/10"
                 style={{ minWidth: (hoveredPlace.photo_urls?.length ?? 0) > 0 ? '160px' : 'auto' }}
               >
                 {/* Photo Preview */}
                 {(hoveredPlace.photo_urls?.length ?? 0) > 0 && (
-                  <div className="flex h-20 w-full border-b border-[#ffffff]/10">
+                  <div className="flex h-20 w-full border-b border-white/10">
                     {hoveredPlace.photo_urls!.slice(0, 2).map((url, i) => (
-                      <div key={i} className="flex-1 relative overflow-hidden bg-black/50 first:border-r border-[#ffffff]/10">
+                      <div key={i} className="flex-1 relative overflow-hidden bg-black/50 first:border-r border-white/10">
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img src={url} alt="" className="w-full h-full object-cover" />
                       </div>
@@ -153,11 +153,11 @@ export default function Map() {
                 )}
 
                 {/* Name Label */}
-                <div className="px-4 py-2 text-center whitespace-nowrap bg-[#141e14]">
-                  <span className="text-xs font-bold block text-[#E8F0E3] tracking-wide">
+                <div className="px-4 py-2 text-center whitespace-nowrap bg-shadow">
+                  <span className="text-xs font-bold block text-mist tracking-wide">
                     {hoveredPlace.name}
                   </span>
-                  <span className="text-[10px] text-[#90A955] uppercase tracking-wider font-semibold">
+                  <span className="text-[10px] text-fern uppercase tracking-wider font-semibold">
                     {placeStatusLabel(hoveredPlace.status)}
                   </span>
                 </div>
